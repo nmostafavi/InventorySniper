@@ -1,8 +1,3 @@
-// To do:
-// [ ] Add visual feedback to indicate script status
-// [ ] Add audio feedback when added to cart
-//   [ ] Also see if you can bring it to front
-
 const timeout = 20000;  // How long to wait for the page to fully load, in milliseconds
 const reloadInterval = 10000;  // How long to wait before reloading when item is deemed out of stock, in milliseconds
 
@@ -21,7 +16,6 @@ var attemptAddToCart = function()
     }
 
     // Could not find the buy button, assume out of stock
-    alert("out of stock");
     setTimeout(function() { location.reload(); }, reloadInterval);
 }
 
@@ -43,7 +37,6 @@ var runCheck = function()
         if (currentTime - startTime > timeout)
         {
             // Timed out waiting for the widget to appear
-            alert("timed out");
             location.reload();
         }
 
