@@ -10,7 +10,7 @@ var attemptAddToCart = function()
     var orderPickupButton = document.querySelector("button[data-test=orderPickupButton");
     if (orderPickupButton)
     {
-        //orderPickupButton.click();
+        orderPickupButton.click();
         chrome.extension.sendRequest({"playAlert": true});
         return;
     }
