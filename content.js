@@ -1,86 +1,49 @@
-// 2020-12-28
-
-var timeout = 20000;  // milliseconds
-var reloadInterval = 10000;  // milliseconds
-
-var isInventoryLoaded = function()
-{
-    // Check whether the fulfillment widget is present.
-    var allDivs = document.getElementsByTagName("div");
-    for (var i = 0; i < allDivs.length; i++)
-    {
-        var div = allDivs[i];
-        if (div.hasAttribute("data-test") && div.getAttribute("data-test") == "flexible-fulfillment")
-        {
-            // This check is not perfect; sometimes it can be a little premature.
-            // Maybe wait for a more specific set of divs to appear?
-            return true;
-        }
-    }
-    return false;
-}
+const timeout = 20000;  // How long to wait for the page to fully load, in milliseconds
+const reloadInterval = 10000;  // How long to wait before reloading when item is deemed out of stock, in milliseconds
 
 var attemptAddToCart = function()
 {
-    // Check for a "Pick it up" or "Pick up here" button.
-    // "Pick it up" will appear if the item is available at your selected store.
-    // "Pick up here" will appear if the item is available at another nearby store.
-    var allButtons = document.getElementsByTagName("button");
-    for (var i = 0; i < allButtons.length; i++) 
+    // Check for a "Pick it up" or "Pick up here" button:
+    //   "Pick it up" will appear if the item is available at your selected store.
+    //   "Pick up here" will appear if the item is available at another nearby store.
+    //   Both of these are the same button, but with different text applied.
+    var orderPickupButton = document.querySelector("button[data-test=orderPickupButton");
+    if (orderPickupButton)
     {
-        var button = allButtons[i];
-        if (button.innerText == "Pick it up" || button.innerText == "Pick up here")
-        {
-            // It's available! Add it to cart right away.
-            // button.click();
-            return true;
-        }
+        //orderPickupButton.click();
+        alert("added to cart");
+        return;
     }
-    return false;
+
+    // Could not find the buy button, assume out of stock
+    setTimeout(function() { location.reload(); }, reloadInterval);
 }
 
 var runCheck = function() 
 {
     // Wait until the inventory widget populates
-    var startTime = new Date();
-    while (!isInventoryLoaded())
+    const startTime = new Date();
+    const pollInterval = 100;  // milliseconds
+    var checkInventoryWidgetLoaded = function()
     {
+        if (document.querySelector("div[data-test=flexible-fulfillment]"))
+        {
+            // Widget loaded
+            attemptAddToCart();
+            return;
+        }
+
         var currentTime = new Date();
         if (currentTime - startTime > timeout)
         {
-            // Timed out
-            // location.reload();
-            return;
+            // Timed out waiting for the widget to appear
+            alert("timed out");
+            location.reload();
         }
-    }
 
-    if (attemptAddToCart())
-    {
-        // Added to cart!
-        alert("Added to cart!");
-
-        // var sound = new Audio(chrome.runtime.getURL("braam.mp3"));
-        // sound.play();
-
-        // chrome.windows.update(chrome.windows.WINDOW_ID_CURRENT, {
-        //     drawAttention: true,
-        //     focused: true
-        // });
-
-        // chrome.tabs.getCurrent(function (tab) {
-        //     chrome.windows.update(tab.windowId, {
-        //         drawAttention: true,
-        //         focused: true
-        //     })
-        // });
-        return;
-    }
-    else
-    {
-        // Not available
-        // location.reload();
-        return;
-    }
+        setTimeout(checkInventoryWidgetLoaded, pollInterval);
+    };
+    checkInventoryWidgetLoaded();
 }
 
 window.addEventListener('load', runCheck);
