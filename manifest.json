@@ -9,8 +9,14 @@
       "js": ["content.js"]
     }
   ],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "web_accessible_resources": [
     "braam.mp3"
+  ],
+  "permissions": [
+    "background"
   ],
   "manifest_version": 2
 }
