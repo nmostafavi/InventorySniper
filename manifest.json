@@ -1,0 +1,16 @@
+{
+  "name": "Auto add for pickup",
+  "version": "1.0",
+  "description": "Reloads the page repeatedly until stock is available, then clicks the  'Add for pickup' button. Plays a loud sound.",
+  "content_scripts": [
+    {
+      "matches": ["https://www.target.com/p/*"],
+      "run_at": "document_end",
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "braam.mp3"
+  ],
+  "manifest_version": 2
+}
