@@ -11,7 +11,6 @@ var runCheck = function()
         var orderPickupButton = document.querySelector("button[data-test=orderPickupButton");
         if (orderPickupButton)
         {
-            alert("in stock! adding to cart");
             orderPickupButton.click();
             chrome.extension.sendRequest({"playAlert": true});
             return;
@@ -20,7 +19,6 @@ var runCheck = function()
         var outOfStockMessage = document.querySelector('div[data-test=outOfStockMessage]');
         if (outOfStockMessage)
         {
-            alert("out of stock");
             setTimeout(function() { location.reload(); }, reloadInterval);
             return;
         }
