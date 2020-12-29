@@ -1,5 +1,5 @@
 const timeout = 20000;  // How long to wait for the page to fully load, in milliseconds
-const reloadInterval = 10000;  // How long to wait before reloading when item is deemed out of stock, in milliseconds
+const reloadInterval = 5000;  // How long to wait before reloading when item is deemed out of stock, in milliseconds
 
 var runCheck = function() 
 {
