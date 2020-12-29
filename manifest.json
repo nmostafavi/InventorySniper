@@ -1,7 +1,7 @@
 {
-  "name": "Auto add for pickup",
+  "name": "Auto add to cart",
   "version": "1.0",
-  "description": "Reloads the page repeatedly until stock is available, then clicks the  'Add for pickup' button. Plays a loud sound.",
+  "description": "Reloads the page repeatedly until stock is available, then clicks the 'Add for pickup' button. Plays a loud sound.",
   "content_scripts": [
     {
       "matches": ["https://www.target.com/p/*"],
@@ -16,7 +16,8 @@
     "braam.mp3"
   ],
   "permissions": [
-    "background"
+    "background",
+    "notifications"
   ],
   "manifest_version": 2
 }
